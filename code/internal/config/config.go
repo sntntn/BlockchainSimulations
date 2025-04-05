@@ -1,4 +1,4 @@
-package main
+package config
 
 import (
 	"log"
@@ -10,7 +10,7 @@ import (
 func LoadEnv() (string, string, string) {
 	err := godotenv.Load("../.env")
 	if err != nil {
-		log.Fatal("Greška pri učitavanju .env fajla")
+		log.Fatal("Greska pri učitavanju .env fajla")
 	}
 
 	rpcURL := os.Getenv("RCP_URL")

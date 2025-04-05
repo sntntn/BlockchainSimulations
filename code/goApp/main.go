@@ -2,22 +2,25 @@ package main
 
 import (
 	"fmt"
-)
 
-// --------------------------------------------------------------------
+	"code/internal/config"
+	"code/internal/rpc"
+	"code/internal/transaction"
+	"code/internal/utilis"
+)
 
 func main() {
 
-	rpcURL, recipientAddress, privateKeyHex := LoadEnv()
+	rpcURL, recipientAddress, privateKeyHex := config.LoadEnv()
 
-	blockNumber := getLatestBlock(rpcURL)
+	blockNumber := rpc.GetLatestBlock(rpcURL)
 	fmt.Println(blockNumber)
 	fmt.Println()
 
-	fakeBalance := ethToHex(100) // 100 ETH
-	setFakeBalance(rpcURL, recipientAddress, fakeBalance)
+	fakeBalance := utilis.EthToHex(100) // 100 ETH
+	transaction.SetFakeBalance(rpcURL, recipientAddress, fakeBalance)
 
 	sendEth := 1
-	sendTransaction(rpcURL, recipientAddress, int64(sendEth), privateKeyHex)
+	transaction.SendTransaction(rpcURL, recipientAddress, int64(sendEth), privateKeyHex)
 
 }

@@ -1,4 +1,4 @@
-package main
+package rpc
 
 import (
 	"bytes"
@@ -9,7 +9,7 @@ import (
 	"net/http"
 )
 
-func getLatestBlock(rpcURL string) string {
+func GetLatestBlock(rpcURL string) string {
 	reqBody := RPCRequest{
 		Jsonrpc: "2.0",
 		Method:  "eth_getBlockByNumber",
@@ -20,25 +20,25 @@ func getLatestBlock(rpcURL string) string {
 	// Pretvaramo strukturu u JSON
 	reqBytes, err := json.Marshal(reqBody)
 	if err != nil {
-		log.Fatalf("Greška pri konverziji u JSON: %v", err)
+		log.Fatalf("Greska pri konverziji u JSON: %v", err)
 	}
 
 	resp, err := http.Post(rpcURL, "application/json", bytes.NewBuffer(reqBytes))
 	if err != nil {
-		log.Fatalf("Greška pri slanju RPC zahteva: %v", err)
+		log.Fatalf("Greska pri slanju RPC zahteva: %v", err)
 	}
 	defer resp.Body.Close()
 
 	// Citamo telo odgovora
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		log.Fatalf("Greška pri čitanju odgovora: %v", err)
+		log.Fatalf("Greska pri čitanju odgovora: %v", err)
 	}
 
 	// Parsiramo odgovor
 	var rpcResp RPCResponse
 	if err := json.Unmarshal(body, &rpcResp); err != nil {
-		log.Fatalf("Greška pri parsiranju JSON odgovora: %v", err)
+		log.Fatalf("Greska pri parsiranju JSON odgovora: %v", err)
 	}
 
 	fmt.Println("BLOCK Odgovor:", string(rpcResp.Result))
@@ -46,7 +46,7 @@ func getLatestBlock(rpcURL string) string {
 	// Parsiramo blok
 	var block Block
 	if err := json.Unmarshal(rpcResp.Result, &block); err != nil {
-		log.Fatalf("Greška pri parsiranju podataka bloka: %v", err)
+		log.Fatalf("Greska pri parsiranju podataka bloka: %v", err)
 	}
 
 	fmt.Printf("Blok broj: %s\n", block.Number)

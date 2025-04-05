@@ -1,6 +1,7 @@
-package main
+package transaction
 
 import (
+	"code/internal/utilis"
 	"context"
 	"crypto/ecdsa"
 	"fmt"
@@ -12,7 +13,7 @@ import (
 	"github.com/ethereum/go-ethereum/ethclient"
 )
 
-func sendTransaction(rpcURL string, recipientAddress string, sendEth int64, privateKeyHex string) {
+func SendTransaction(rpcURL string, recipientAddress string, sendEth int64, privateKeyHex string) {
 	client, err := ethclient.Dial(rpcURL)
 	if err != nil {
 		log.Fatalf("Neuspesna konekcija: %v", err)
@@ -43,7 +44,7 @@ func sendTransaction(rpcURL string, recipientAddress string, sendEth int64, priv
 		log.Fatalf("Greska pri dohvatanju gas cene: %v", err)
 	}
 
-	value := ethToWei(sendEth)
+	value := utilis.EthToWei(sendEth)
 
 	tx := types.NewTransaction(nonce, toAddress, value, gasLimit, gasPrice, nil)
 

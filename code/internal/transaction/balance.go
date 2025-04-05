@@ -1,7 +1,8 @@
-package main
+package transaction
 
 import (
 	"bytes"
+	"code/internal/rpc"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -9,8 +10,8 @@ import (
 	"net/http"
 )
 
-func setFakeBalance(rpcURL string, address string, balance string) {
-	reqBody := RPCRequest{
+func SetFakeBalance(rpcURL string, address string, balance string) {
+	reqBody := rpc.RPCRequest{
 		Jsonrpc: "2.0",
 		Method:  "tenderly_setBalance",
 		Params:  []interface{}{address, balance},

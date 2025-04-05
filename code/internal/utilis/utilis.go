@@ -1,11 +1,11 @@
-package main
+package utilis
 
 import (
 	"fmt"
 	"math/big"
 )
 
-func ethToWei(eth int64) *big.Int {
+func EthToWei(eth int64) *big.Int {
 	// 1 ETH = 10^18 wei
 	weiAmount := new(big.Int).SetInt64(1000000000000000000)
 	ethAmount := new(big.Int).SetInt64(eth)
@@ -15,8 +15,8 @@ func ethToWei(eth int64) *big.Int {
 	return weiValue
 }
 
-func ethToHex(eth int64) string {
-	weiValue := ethToWei(eth)
+func EthToHex(eth int64) string {
+	weiValue := EthToWei(eth)
 
 	weiHex := fmt.Sprintf("0x%s", weiValue.Text(16))
 
