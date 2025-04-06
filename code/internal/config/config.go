@@ -13,9 +13,9 @@ func LoadEnv() (string, string, string) {
 		log.Fatal("Greska pri učitavanju .env fajla")
 	}
 
-	rpcURL := os.Getenv("RCP_URL")
+	rpcURL := os.Getenv("RPC_URL")
 	if rpcURL == "" {
-		log.Fatal("Nedostaje RCP_URL u .env fajlu")
+		log.Fatal("Nedostaje RPC_URL u .env fajlu")
 	}
 
 	recipient := os.Getenv("RECIPIENT_ADDRESS")
