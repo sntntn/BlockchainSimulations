@@ -2,8 +2,8 @@ mod config;
 mod rpc;
 mod models;
 
+use rpc::fetch::{fetch_latest_block};
 use config::{load_env, get_rpc_url};
-use rpc::fetch_latest_block;
 use models::SimpleBlock;
 use tokio;
 

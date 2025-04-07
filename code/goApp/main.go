@@ -1,7 +1,17 @@
 package main
 
+/*
+#cgo LDFLAGS: -L. -lrpc
+#include <stdlib.h>
+
+// fetch_transactions je Rust funkcija koja vraca podatke o transakcijama iz poslednjeg bloka
+char* fetch_transactions(const char* rpc_url);
+*/
+import "C"
+
 import (
 	"fmt"
+	"unsafe"
 
 	"code/internal/config"
 	"code/internal/rpc"
@@ -22,5 +32,17 @@ func main() {
 
 	sendEth := 1
 	transaction.SendTransaction(rpcURL, recipientAddress, int64(sendEth), privateKeyHex)
+
+	//---------------------------
+	fmt.Println()
+
+	cRpcURL := C.CString(rpcURL)
+	defer C.free(unsafe.Pointer(cRpcURL))
+
+	result := C.fetch_transactions(cRpcURL)
+	defer C.free(unsafe.Pointer(result))
+
+	goResult := C.GoString(result)
+	fmt.Println("Podaci o transakcijama iz poslednjeg bloka:\n", goResult)
 
 }

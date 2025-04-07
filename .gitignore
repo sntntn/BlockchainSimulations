@@ -1,3 +1,7 @@
 .env
 target
 Cargo.lock
+
+# Rust FFI shared libraries
+librpc.a
+rpc.dll
