@@ -1,7 +1,11 @@
+# Env file
 .env
-target
-Cargo.lock
 
-# Rust FFI shared libraries
-librpc.a
-rpc.dll
+# Rust build output
+rustCode/target/
+rustCode/Cargo.lock
+
+# Rust FFI shared libraries in Go app folder
+goCode/goApp/librpc.a
+goCode/goApp/rpc.dll
+goCode/goApp/librpc.so
