@@ -5,7 +5,7 @@ This repository is dedicated to experimenting with blockchain technologies.
 ```
 ./
 ├── README.md*
-├── code/
+├── goCode/
 │   ├── go.mod*
 │   ├── go.sum*
 │   ├── goApp/
@@ -49,7 +49,7 @@ Before you can run the program, ensure you have the following installed:
    
 3. **Geth**: The **Go Ethereum** client is required for the Go program to interact with the Ethereum blockchain. You can download it from the official [Geth website](https://geth.ethereum.org/downloads/).
 
-4. **.env file**: Ensure the `.env` file is properly configured in the `code` folder with the following variables:
+4. **.env file**: Ensure the `.env` file is properly configured in the `goCode` folder with the following variables:
 
 ```env
 PRIVATE_KEY=your_private_key
@@ -72,13 +72,19 @@ RPC_URL=rpc_url_of_your_choice
 ```
 cargo build --release
 ```
-  - this will generate **rpc.dll** and **rpc.dll.lib** in `rustCode/target/release` folder
-  - Then copy them to `code/goApp` folder as
+  - for **Ubuntu/Linux** -> This will generate librpc.so in the rustCode/target/release folder.
+    - Then copy them to `goCode/goApp` folder as
+      ```
+      cp target/release/librpc.so ../goCode/goApp/
+      ```
+
+  - for **Windows** -> This will generate **rpc.dll** and **rpc.dll.lib** in `rustCode/target/release` folder
+    - Then copy them to `goCode/goApp` folder as
       - rpc.dll -> **rpc.dll**
       - rpc.dll.lib -> **librpc.a** *(renamed)*
     
 **Go Part**
-  - Navigate to the `code/goApp` folder.
+  - Navigate to the `goCode/goApp` folder.
   - Then run 
 ```go run main.go```
 

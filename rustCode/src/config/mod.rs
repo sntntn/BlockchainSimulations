@@ -2,7 +2,7 @@ use std::{env, path::Path};
 use dotenvy::from_path;
 
 pub fn load_env() {
-    let env_path = Path::new("../code/.env");
+    let env_path = Path::new("../goCode/.env");
     from_path(env_path).expect("Nije moguce ucitati .env fajl sa date putanje");
 }
 

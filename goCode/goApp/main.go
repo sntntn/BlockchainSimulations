@@ -1,7 +1,7 @@
 package main
 
 /*
-#cgo LDFLAGS: -L. -lrpc
+#cgo LDFLAGS: -L. -lrpc -Wl,-rpath=.
 #include <stdlib.h>
 
 // fetch_transactions je Rust funkcija koja vraca podatke o transakcijama iz poslednjeg bloka
@@ -13,10 +13,10 @@ import (
 	"fmt"
 	"unsafe"
 
-	"code/internal/config"
-	"code/internal/rpc"
-	"code/internal/transaction"
-	"code/internal/utilis"
+	"goCode/internal/config"
+	"goCode/internal/rpc"
+	"goCode/internal/transaction"
+	"goCode/internal/utilis"
 )
 
 func main() {
