@@ -1,6 +1,8 @@
 name: Check for .env in PR
 
 on:
+  push:
+    branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
 
