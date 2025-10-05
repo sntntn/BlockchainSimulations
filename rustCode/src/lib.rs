@@ -13,7 +13,7 @@ pub extern "C" fn fetch_transactions(rpc_url: *const c_char) -> *mut c_char {
     // Pozivanje fetch_latest_block funkcije za dobijanje najnovijeg bloka
     let future = tokio::runtime::Runtime::new()
         .unwrap()
-        .block_on(fetch_latest_block(rpc_url_str));
+        .block_on(fetch_latest_block(rpc_url_str, true));
 
     // Prikupljanje transakcija iz rezultata
     let mut transaction_data = String::new();

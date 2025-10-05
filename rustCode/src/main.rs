@@ -2,9 +2,9 @@ mod config;
 mod models;
 mod rpc;
 
-use config::{get_rpc_url, load_env};
+use config::{get_testnet_rpc_url, get_mainnet_rpc_url, load_testnet_env};
 use models::SimpleBlock;
-use rpc::fetch::fetch_latest_block;
+use rpc::fetch::{fetch_latest_block, fetch_block_by_number};
 use tokio;
 
 fn print_block_info(block: &SimpleBlock) {
@@ -26,11 +26,20 @@ fn print_block_info(block: &SimpleBlock) {
 }
 
 #[tokio::main]
-async fn main() {
-    load_env();
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    load_testnet_env();
 
-    let rpc_url = get_rpc_url();
+    let testnet_rpc_url = get_testnet_rpc_url();
 
-    let block = fetch_latest_block(&rpc_url).await;
+    let block = fetch_latest_block(&testnet_rpc_url, true).await;
     print_block_info(&block);
+
+    println!("----------------------");
+    let mainnet_rpc_url = get_mainnet_rpc_url();
+    println!("{}",mainnet_rpc_url);
+
+    let block_response = fetch_block_by_number(&mainnet_rpc_url,"latest" , false).await?;
+    println!("{}",block_response);
+
+    Ok(())
 }
