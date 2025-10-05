@@ -1,5 +1,5 @@
-use std::{env, path::Path};
 use dotenvy::from_path;
+use std::{env, path::Path};
 
 pub fn load_env() {
     let env_path = Path::new("../goCode/.env");

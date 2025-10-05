@@ -32,7 +32,7 @@ func GetLatestBlock(rpcURL string) string {
 	// Citamo telo odgovora
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		log.Fatalf("Greska pri čitanju odgovora: %v", err)
+		log.Fatalf("Greska pri citanju odgovora: %v", err)
 	}
 
 	// Parsiramo odgovor

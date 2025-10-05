@@ -1,10 +1,10 @@
 package transaction
 
 import (
-	"goCode/internal/utilis"
 	"context"
 	"crypto/ecdsa"
 	"fmt"
+	"goCode/internal/utilis"
 	"log"
 
 	"github.com/ethereum/go-ethereum/common"
@@ -25,7 +25,7 @@ func SendTransaction(rpcURL string, recipientAddress string, sendEth int64, priv
 		log.Fatalf("Neuspesna konverzija privatnog kljuca: %v", err)
 	}
 
-	// Adresa pošiljaoca
+	// Adresa posiljaoca
 	publicKey := privateKey.Public().(*ecdsa.PublicKey)
 	fromAddress := crypto.PubkeyToAddress(*publicKey)
 
@@ -51,7 +51,7 @@ func SendTransaction(rpcURL string, recipientAddress string, sendEth int64, priv
 	// Potpisivanje transakcije
 	chainID, err := client.NetworkID(context.Background())
 	if err != nil {
-		log.Fatalf("Greska pri dohvatanju ID mreže: %v", err)
+		log.Fatalf("Greska pri dohvatanju ID mreze: %v", err)
 	}
 	signedTx, err := types.SignTx(tx, types.NewEIP155Signer(chainID), privateKey)
 	if err != nil {

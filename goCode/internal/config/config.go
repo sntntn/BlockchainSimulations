@@ -10,7 +10,7 @@ import (
 func LoadEnv() (string, string, string) {
 	err := godotenv.Load("../.env")
 	if err != nil {
-		log.Fatal("Greska pri učitavanju .env fajla")
+		log.Fatal("Greska pri ucitavanju .env fajla")
 	}
 
 	rpcURL := os.Getenv("RPC_URL")

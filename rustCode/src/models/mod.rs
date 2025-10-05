@@ -1,4 +1,4 @@
-use serde::{Deserialize};
+use serde::Deserialize;
 
 #[derive(Debug, Deserialize)]
 pub struct RPCResponse {
@@ -22,7 +22,7 @@ pub struct SimpleTransaction {
     pub to: Option<String>,
     pub value: String,
     pub gas: String,
-    
+
     #[serde(rename = "gasPrice")]
     pub gas_price: String,
 }

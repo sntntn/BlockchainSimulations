@@ -1,10 +1,10 @@
 mod config;
-mod rpc;
 mod models;
+mod rpc;
 
-use rpc::fetch::{fetch_latest_block};
-use config::{load_env, get_rpc_url};
+use config::{get_rpc_url, load_env};
 use models::SimpleBlock;
+use rpc::fetch::fetch_latest_block;
 use tokio;
 
 fn print_block_info(block: &SimpleBlock) {
