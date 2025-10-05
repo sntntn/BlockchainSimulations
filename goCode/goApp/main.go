@@ -43,6 +43,6 @@ func main() {
 	defer C.free(unsafe.Pointer(result))
 
 	goResult := C.GoString(result)
-	fmt.Println("Podaci o transakcijama iz poslednjeg bloka:\n", goResult)
+	fmt.Println("Rust FFI: Podaci o transakcijama iz poslednjeg bloka:\n", goResult)
 
 }

@@ -13,9 +13,9 @@ func LoadEnv() (string, string, string) {
 		log.Fatal("Greska pri ucitavanju .env fajla")
 	}
 
-	rpcURL := os.Getenv("RPC_URL")
-	if rpcURL == "" {
-		log.Fatal("Nedostaje RPC_URL u .env fajlu")
+	rpcTestnetURL := os.Getenv("RPC_TESTNET_URL")
+	if rpcTestnetURL == "" {
+		log.Fatal("Nedostaje RPC_TESTNET_URL u .env fajlu")
 	}
 
 	recipient := os.Getenv("RECIPIENT_ADDRESS")
@@ -28,5 +28,5 @@ func LoadEnv() (string, string, string) {
 		log.Fatal("Nedostaje PRIVATE_KEY u .env fajlu")
 	}
 
-	return rpcURL, recipient, privateKeyHex
+	return rpcTestnetURL, recipient, privateKeyHex
 }

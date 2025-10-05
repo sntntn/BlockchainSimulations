@@ -41,7 +41,8 @@ func GetLatestBlock(rpcURL string) string {
 		log.Fatalf("Greska pri parsiranju JSON odgovora: %v", err)
 	}
 
-	fmt.Println("BLOCK Odgovor:", string(rpcResp.Result))
+	fmt.Println("sadrzaj BLOCK-a:\n", string(rpcResp.Result))
+	fmt.Println()
 
 	// Parsiramo blok
 	var block Block
