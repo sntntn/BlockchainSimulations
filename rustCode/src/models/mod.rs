@@ -47,7 +47,7 @@ pub struct RPCResponseReceipt {
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct TransactionReceipt {
-    transaction_hash: String,
-    gas_used: String,
-    cumulative_gas_used: String,
+    pub transaction_hash: String,
+    pub gas_used: String,
+    pub cumulative_gas_used: String,
 }

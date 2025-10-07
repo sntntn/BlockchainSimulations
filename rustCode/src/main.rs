@@ -30,7 +30,7 @@ fn print_transactions(transactions: &[SimpleTransaction]) {
         println!("Gas price: {}", tx.gas_price);
     }
 
-    print!("----------------------");
+    println!("----------------------");
     println!("ispisano je {} transakcija", transactions.len());
 }
 
@@ -61,9 +61,25 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("----------------------");
     
     if let Some(max_tx) = find_max_gas_transaction(&transactions){
-        println!("{:?}",max_tx);    
-        let res = fetch_transaction_receipt(&mainnet_rpc_url, &max_tx.hash).await;
-        println!("{:?}", res);
+        println!("Transakcija sa najvecim gas limitom: ");
+        println!("Hash {}", max_tx.hash);
+        println!("Gas limit: (hex): {}", max_tx.gas);
+
+        let receipt = fetch_transaction_receipt(&mainnet_rpc_url, &max_tx.hash).await;
+        //println!("{:?}", receipt);
+
+        let tx_gas_used = 
+            u64::from_str_radix(receipt.gas_used.trim_start_matches("0x"), 16).unwrap_or(0);
+        let block_gas_used =
+            u64::from_str_radix(block_response.gas_used.trim_start_matches("0x"), 16).unwrap_or(1);
+
+        let percent_of_block = (tx_gas_used as f64 / block_gas_used as f64) * 100.0;
+
+        println!("Gas potrosen od ove transakcije: {}", tx_gas_used);
+        println!("Gas potrosen u bloku: {}", block_gas_used);
+        println!("Procenat potrosnje u bloku: {:.6}%", percent_of_block);
+    } else {
+            println!("Nema transakcija u ovom bloku");
     }
 
 
