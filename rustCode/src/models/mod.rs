@@ -28,22 +28,11 @@ pub struct SimpleTransaction {
 }
 
 #[derive(Debug, Deserialize)]
-pub struct RPCResponseBlockTransactions {
-    pub result: BlockTransactions,
-}
-
-#[derive(Debug, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub struct BlockTransactions {
-    pub block_hash: String,
-    pub transactions: Vec<SimpleTransaction>,
-}
-
-#[derive(Debug, Deserialize)]
 pub struct RPCResponseReceipt {
     pub result: TransactionReceipt,
 }
 
+#[allow(dead_code)]
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct TransactionReceipt {

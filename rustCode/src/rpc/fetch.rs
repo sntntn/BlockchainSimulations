@@ -1,6 +1,6 @@
-use crate::models::{BlockTransactions, RPCResponseBlock, RPCResponseBlockTransactions, RPCResponseReceipt, SimpleBlock, TransactionReceipt};
+use crate::models::{RPCResponseBlock, RPCResponseReceipt, SimpleBlock, TransactionReceipt};
 use reqwest::Client;
-use serde_json::{json, Value};
+use serde_json::json;
 
 pub async fn fetch_latest_block(rpc_url: &str, transaction_bool: bool) -> SimpleBlock {
     let req_body = json!( {
