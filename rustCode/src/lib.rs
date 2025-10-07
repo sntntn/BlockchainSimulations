@@ -30,6 +30,6 @@ pub extern "C" fn fetch_transactions(rpc_url: *const c_char) -> *mut c_char {
 
     let c_str_result = CString::new(transaction_data).unwrap();
 
-    // Vracanje C stringa koji Go moye koristiti
+    // Vracanje C stringa koji Go moze koristiti
     c_str_result.into_raw()
 }
