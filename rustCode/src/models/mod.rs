@@ -44,6 +44,7 @@ pub struct TransactionReceipt {
     pub cumulative_gas_used: String,
 }
 
+#[derive(serde::Serialize)]
 pub struct TxSummary {
     pub block_number: String,
     pub tx_hash: String,
