@@ -1,5 +1,6 @@
 pub mod models;
 pub mod rpc;
+pub mod utils;
 
 use crate::rpc::fetch::fetch_latest_block;
 use std::ffi::CString;

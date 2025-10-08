@@ -4,8 +4,8 @@ mod rpc;
 mod utils;
 
 use config::{get_testnet_rpc_url, get_mainnet_rpc_url, load_testnet_env};
-use rpc::fetch::{fetch_latest_block, fetch_block_by_number, fetch_transaction_receipt};
-use utils::{print_block_info, print_transactions, find_max_gas_transaction, hex_to_u64, calculate_gas_percentage, consume_and_calculate_gas};
+use rpc::fetch::{fetch_latest_block, fetch_block_by_number, fetch_last_5_blocks_and_receipts};
+use utils::{print_block_info, hex_to_u64, analyze_max_gas_transaction};
 use tokio;
 
 #[tokio::main]
@@ -28,35 +28,24 @@ async fn main() {
     print_block_info(&block_mainnet);
 
     let transactions = block_mainnet.transactions;
-    print_transactions(&transactions);
+    //print_transactions(&transactions);
 
-    println!("----------------------");
+    analyze_max_gas_transaction(&mainnet_rpc_url, &transactions, &block_mainnet.gas_used).await;
     
-    if let Some(max_tx) = find_max_gas_transaction(&transactions){
-        println!("Transakcija sa najvecim gas limitom: ");
-        println!("Hash {}", max_tx.hash);
-        println!("Gas limit: (hex): {}", max_tx.gas);
-        println!();
+    println!();
+    println!("=======================");
+    println!("Fetchujem 5 poslednjih blokova i njihove max gas transakcije...");
+    println!("=======================\n");
 
-        let receipt = fetch_transaction_receipt(&mainnet_rpc_url, &max_tx.hash).await;
-        //println!("{:?}", receipt);    // OVO MOZE
-        let tx_gas_used = hex_to_u64(&receipt.gas_used);
-        let block_gas_used = hex_to_u64(&block_mainnet.gas_used);
-        let percent_of_block = calculate_gas_percentage(tx_gas_used, block_gas_used);
-    
-        println!("Gas potrosen od ove transakcije: {}", tx_gas_used);
-        println!("Gas potrosen u bloku: {}", block_gas_used);
-        println!("Procenat potrosnje u bloku: {:.6}%", percent_of_block);
-        println!();
-        
-        println!("Funkcija uzima ownership");
-        let percent_of_block1 = consume_and_calculate_gas(receipt, block_mainnet.gas_used);
-        println!("Procenat potrosnje u bloku: {:.6}%", percent_of_block1);
-        //println!("{:?}", receipt);                                         //OVO NE MOZE jer je promenjen owner
-        //println!("{}",block_response.gas_used);
-        //let tx_gas_used1 = hex_to_u64(&receipt.gas_used);
-        //let block_gas_used1 = hex_to_u64(&block_response.gas_used);
-    } else {
-            println!("Nema transakcija u ovom bloku");
+    let latest_block_number = hex_to_u64(&block_mainnet.number);
+    let summaries = fetch_last_5_blocks_and_receipts(mainnet_rpc_url, latest_block_number).await;
+
+    println!("\n===== REZIME 5 BLOKOVA =====");
+    for s in summaries {
+        println!(
+            "Blok {} | TX {} | Gas {} | {:.3}%",
+            s.block_number, s.tx_hash, s.gas_used, s.percent_in_block
+        );
     }
+
 }

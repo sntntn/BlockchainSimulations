@@ -8,6 +8,7 @@ pub fn print_block_info(block: &SimpleBlock) {
     println!("Broj transakcija: {}", block.transactions.len());
 }
 
+#[allow(dead_code)]
 pub fn print_transactions(transactions: &[SimpleTransaction]) {
     for tx in transactions {
         println!("---");

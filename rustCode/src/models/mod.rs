@@ -15,6 +15,7 @@ pub struct SimpleBlock {
     pub transactions: Vec<SimpleTransaction>,
 }
 
+#[allow(dead_code)]
 #[derive(Debug, Deserialize)]
 pub struct SimpleTransaction {
     pub hash: String,
@@ -36,7 +37,16 @@ pub struct RPCResponseReceipt {
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct TransactionReceipt {
+    pub block_hash: String,
+    pub block_number: String,
     pub transaction_hash: String,
     pub gas_used: String,
     pub cumulative_gas_used: String,
+}
+
+pub struct TxSummary {
+    pub block_number: String,
+    pub tx_hash: String,
+    pub gas_used: u64,
+    pub percent_in_block: f64,
 }
