@@ -7,13 +7,18 @@ import (
 	"github.com/joho/godotenv"
 )
 
-func LoadEnv() (string, string, string) {
+func LoadEnv() (string, string, string, string) {
 	err := godotenv.Load("../.env")
 	if err != nil {
 		log.Fatal("Greska pri ucitavanju .env fajla")
 	}
 
 	rpcTestnetURL := os.Getenv("RPC_TESTNET_URL")
+	if rpcTestnetURL == "" {
+		log.Fatal("Nedostaje RPC_TESTNET_URL u .env fajlu")
+	}
+
+	rpcMainnetURL := os.Getenv("RPC_MAINNET_URL")
 	if rpcTestnetURL == "" {
 		log.Fatal("Nedostaje RPC_TESTNET_URL u .env fajlu")
 	}
@@ -28,5 +33,5 @@ func LoadEnv() (string, string, string) {
 		log.Fatal("Nedostaje PRIVATE_KEY u .env fajlu")
 	}
 
-	return rpcTestnetURL, recipient, privateKeyHex
+	return rpcTestnetURL, rpcMainnetURL, recipient, privateKeyHex
 }
