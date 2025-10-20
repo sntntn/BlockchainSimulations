@@ -8,6 +8,8 @@ use rpc::fetch::{fetch_latest_block, fetch_block_by_number, fetch_last_5_blocks_
 use utils::{print_block_info, hex_to_u64, analyze_max_gas_transaction};
 use tokio;
 
+//use crate::utils::print_transactions;
+
 #[tokio::main]
 async fn main() {
     load_testnet_env();
@@ -23,6 +25,7 @@ async fn main() {
 
     println!("Testnet blok:");
     print_block_info(&block_testnet);
+    //print_transactions(&block_testnet.transactions);
     println!("----------------------");
     println!("Mainnet blok:");
     print_block_info(&block_mainnet);

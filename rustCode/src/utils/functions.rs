@@ -61,3 +61,83 @@ pub async fn analyze_max_gas_transaction(
         println!("Nema transakcija u ovom bloku");
     }
 }
+
+#[cfg(test)]
+mod test{
+    use super::*;
+
+    #[test]
+    fn test_hex_to_u_64(){
+        let result = hex_to_u64("0x1a");
+        assert_eq!(result,26);
+    }
+    #[test]
+    fn test_hex_to_u64_invalid_hex() {
+        let result = hex_to_u64("not_a_hex");
+        assert_eq!(result, 0);
+    }
+
+    #[test]
+    fn test_calculate_gas_percentage(){
+        let result = calculate_gas_percentage(50, 200);
+        assert!(
+            (result-25.0).abs() < 1e-6,
+            "25% test failed, result is {result}"
+        );
+
+        let zero_edge_case = calculate_gas_percentage(1000, 0);
+        assert_eq!(
+            zero_edge_case, 0.0,
+            "zero edge case test failed"
+        );
+    }
+
+    #[test]
+    fn test_find_max_gas_transaction() {
+        let tx1 = SimpleTransaction {
+            hash: "0x1".to_string(),
+            from: "0xabc".to_string(),
+            to: Some("0xdef".to_string()),
+            value: "0x10".to_string(),
+            gas: "0x10".to_string(),       // 16
+            gas_price: "0x1".to_string(),
+        };
+        let tx2 = SimpleTransaction {
+            hash: "0x2".to_string(),
+            from: "0xabc".to_string(),
+            to: Some("0xdef".to_string()),
+            value: "0x20".to_string(),
+            gas: "0x20".to_string(),       // 32
+            gas_price: "0x1".to_string(),
+        };
+        let tx3 = SimpleTransaction {
+            hash: "0x3".to_string(),
+            from: "0xabc".to_string(),
+            to: Some("0xdef".to_string()),
+            value: "0x30".to_string(),
+            gas: "0x15".to_string(),       // 21
+            gas_price: "0x1".to_string(),
+        };
+
+        let transactions = vec![tx1, tx2, tx3];
+        let result = find_max_gas_transaction(&transactions).unwrap();
+
+        assert_eq!(result.hash, "0x2");
+    }
+
+    #[test]
+    fn test_realistic_transaction_data() {
+        let tx = SimpleTransaction {
+            hash: "0x8e2e8a4f08807b2e94fd87eb1a88fd445b25f2b2ae04a604015ab1f47a60a700".to_string(),
+            from: "0xfbe5e8d44e14cdafb4932090806d27c80c5ffbaa".to_string(),
+            to: Some("0xfbe5e8d44e14cdafb4932090806d27c80c5ffbaa".to_string()),
+            value: "0xde0b6b3a7640000".to_string(), // 1 ether u wei
+            gas: "0x5208".to_string(),              // 21000
+            gas_price: "0x1".to_string(),
+        };
+
+        let gas_as_u64 = hex_to_u64(&tx.gas);
+        assert_eq!(gas_as_u64, 21000);
+    }
+
+}
