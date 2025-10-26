@@ -37,7 +37,7 @@ pub extern "C" fn fetch_transactions(rpc_url: *const c_char) -> *mut c_char {
 }
 
 #[no_mangle]
-pub extern "C" fn fetch_last_5_blocks(rpc_url: *const c_char) -> *mut c_char {
+pub extern "C" fn fetch_max_tx_per_last_5_blocks(rpc_url: *const c_char) -> *mut c_char {
     let c_rpc = unsafe { std::ffi::CStr::from_ptr(rpc_url) };
     let rpc_url_str = c_rpc.to_str().unwrap();
 

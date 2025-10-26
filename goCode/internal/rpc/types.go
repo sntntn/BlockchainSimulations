@@ -32,7 +32,7 @@ type Transaction struct {
 }
 
 type TxSummary struct {
-	BlockNumber    uint64  `json:"block_number"`
+	BlockNumber    string  `json:"block_number"`
 	TxHash         string  `json:"tx_hash"`
 	GasUsed        uint64  `json:"gas_used"`
 	PercentInBlock float64 `json:"percent_in_block"`
