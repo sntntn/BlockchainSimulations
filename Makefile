@@ -12,6 +12,8 @@ RUST_LIB_WINDOWS_LIB = $(RUST_DIR)/target/release/rpc.dll.lib
 # build Rust library
 RUST_BUILD_CMD = cargo build --release
 
+RUST_TEST_CMD = cargo test
+
 allLinux: build_rust copy_libs_linux run_go
 
 allWindows: build_rust copy_libs_windows run_go
@@ -36,6 +38,10 @@ run_go:
 run_rust:
 	@echo "Running Rust code..."
 	cd $(RUST_DIR) && cargo run
+
+test_rust:
+	@echo "Running Rust unit tests..."
+	cd $(RUST_DIR) && $(RUST_TEST_CMD)
 
 clean:
 	@echo "Cleaning up..."
