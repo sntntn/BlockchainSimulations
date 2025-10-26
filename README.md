@@ -99,6 +99,7 @@ You can build and run the program for both Linux and Windows using the Makefile.
 - `make clean`: Cleans up the build artifacts, including the `target` directory for Rust and the `librpc.so/rpc.dll` in the Go `libs` folder.
 - `make run_rust`: Runs only the Rust code (`cargo run`).
 - `make run_go`: Runs only the Go application (`go run main.go`).
+- `make test_rust`: Runs unit tests for the Rust part of the program..
 
 ## Functionalities
 
@@ -136,5 +137,6 @@ The project uses **FFI (Foreign Function Interface)** to enable communication be
    - **Rust** fetches transaction details from the latest blocks via **RPC** and communicates with Go through **FFI**.
 
 * **Simplify**: In this project, for the sake of simplicity and testing, the same address `RECIPIENT_ADDRESS` was used for both the sender and the recipient. This is done to simulate the transaction process without involving multiple real addresses. In a real-world scenario, the sender and recipient would have distinct addresses.
+
 
 
