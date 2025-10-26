@@ -6,6 +6,4 @@ rustCode/target/
 rustCode/Cargo.lock
 
 # Rust FFI shared libraries in Go app folder
-goCode/goApp/librpc.a
-goCode/goApp/rpc.dll
-goCode/goApp/librpc.so
+goCode/libs/*

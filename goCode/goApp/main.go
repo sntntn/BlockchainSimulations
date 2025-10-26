@@ -1,14 +1,14 @@
 package main
 
 /*
-#cgo LDFLAGS: -L. -lrpc -Wl,-rpath=.
+#cgo LDFLAGS: -L../libs -lrpc -Wl,-rpath=../libs
 #include <stdlib.h>
 
 // fetch_transactions je Rust funkcija koja vraca podatke o transakcijama iz poslednjeg bloka
 char* fetch_transactions(const char* rpc_url);
 
-// fetch_last_5_blocks je Rust funkcija koja vraca podatke o transakciji maksimalnog potrosenog gasa u poslednjih 5 blokova
-char* fetch_last_5_blocks(const char* rpc_url);
+// fetch_max_tx_per_last_5_blocks je Rust funkcija koja vraca podatke o transakciji maksimalnog potrosenog gasa za svaki od poslednjih 5 blokova
+char* fetch_max_tx_per_last_5_blocks(const char* rpc_url);
 */
 import "C"
 
@@ -37,26 +37,27 @@ func main() {
 	sendEth := 1
 	transaction.SendTransaction(rpcTestnetURL, recipientAddress, int64(sendEth), privateKeyHex)
 
-	// === Deo koji zove Rust FFI za transakcije ===
 	fmt.Println()
 
+	// === Deo koji zove Rust FFI ===
 	cRpcTestnetURL := C.CString(rpcTestnetURL)
 	defer C.free(unsafe.Pointer(cRpcTestnetURL))
 
+	fmt.Println("----------Rust pokrece FFI za transakcije iz poslednjeg bloka:----------")
 	result := C.fetch_transactions(cRpcTestnetURL)
 	defer C.free(unsafe.Pointer(result))
-
+	fmt.Println("----------Rust je zavrsio FFI----------")
 	goResult := C.GoString(result)
 	fmt.Println("Rust FFI: Podaci o transakcijama iz poslednjeg bloka:\n", goResult)
 
-	// === Deo koji zove Rust FFI za 5 blokova ===
 	fmt.Println()
 
 	cRpcMainnetURL := C.CString(rpcMainnetURL)
 	defer C.free(unsafe.Pointer(cRpcMainnetURL))
-
-	resultArray := C.fetch_last_5_blocks(cRpcMainnetURL)
+	fmt.Println("----------Rust pokrece FFI za maksimalne transakcije iz poslednjih 5 blokova:----------")
+	resultArray := C.fetch_max_tx_per_last_5_blocks(cRpcMainnetURL)
 	defer C.free(unsafe.Pointer(resultArray))
+	fmt.Println("----------Rust je zavrsio FFI----------")
 	goArray := C.GoString(resultArray)
 
 	var summaries []rpc.TxSummary
@@ -67,7 +68,7 @@ func main() {
 	}
 
 	for _, s := range summaries {
-		fmt.Printf("Blok %s | TX %s | Gas %d | %.3f%% u bloku\n",
+		fmt.Printf("Blok %s | MAX TX %s | Gas %d | %.3f%% u bloku\n",
 			s.BlockNumber, s.TxHash, s.GasUsed, s.PercentInBlock)
 	}
 }
