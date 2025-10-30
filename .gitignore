@@ -4,6 +4,7 @@
 # Rust build output
 rustCode/target/
 rustCode/Cargo.lock
+target/
 
 # Rust FFI shared libraries in Go app folder
 goCode/libs/*
