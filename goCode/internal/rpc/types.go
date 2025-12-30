@@ -9,10 +9,16 @@ type RPCRequest struct {
 	ID      int           `json:"id"`
 }
 
+type RPCError struct {
+	Code    int    `json:"code"`
+	Message string `json:"message"`
+}
+
 type RPCResponse struct {
 	Jsonrpc string          `json:"jsonrpc"`
 	ID      int             `json:"id"`
-	Result  json.RawMessage `json:"result"` // Sirovi JSON za parsiranje
+	Result  json.RawMessage `json:"result"`
+	Error   *RPCError       `json:"error,omitempty"`
 }
 
 type Block struct {

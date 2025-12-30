@@ -41,6 +41,14 @@ func GetLatestBlock(rpcURL string) string {
 		log.Fatalf("Greska pri parsiranju JSON odgovora: %v", err)
 	}
 
+	if rpcResp.Error != nil {
+		log.Fatalf(
+			"RPC greska (code=%d): %s",
+			rpcResp.Error.Code,
+			rpcResp.Error.Message,
+		)
+	}
+
 	fmt.Println("sadrzaj BLOCK-a:\n", string(rpcResp.Result))
 	fmt.Println()
 
