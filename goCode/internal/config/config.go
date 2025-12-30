@@ -19,7 +19,7 @@ func LoadEnv() (string, string, string, string) {
 	}
 
 	rpcMainnetURL := os.Getenv("RPC_MAINNET_URL")
-	if rpcTestnetURL == "" {
+	if rpcMainnetURL == "" {
 		log.Fatal("Nedostaje RPC_TESTNET_URL u .env fajlu")
 	}
 

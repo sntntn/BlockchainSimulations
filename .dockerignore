@@ -1,0 +1,28 @@
+# Git
+.git
+.gitignore
+
+# Rust
+rustCode/target
+**/target
+
+# Go
+**/bin
+**/*.exe
+
+# Env & secrets
+#.env
+#**/.env
+#!goCode/.env
+
+# Docker
+Dockerfile
+docker-compose.yml
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+.vscode
+.idea
+
