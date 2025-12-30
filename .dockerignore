@@ -11,8 +11,8 @@ rustCode/target
 **/*.exe
 
 # Env & secrets
-#.env
-#**/.env
+.env
+**/.env
 #!goCode/.env
 
 # Docker

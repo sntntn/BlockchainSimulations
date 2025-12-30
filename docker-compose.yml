@@ -1,0 +1,10 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: blockchain-ffi
+    container_name: blockchain-ffi
+    volumes:
+      - ./goCode/.env:/app/goCode/.env
+#    restart: unless-stopped

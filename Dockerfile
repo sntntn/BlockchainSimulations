@@ -18,7 +18,6 @@ WORKDIR /app/goCode/goApp
 ENV CGO_ENABLED=1
 RUN go build -o app
 
-
 # ----------------------------
 FROM ubuntu:24.04
 WORKDIR /app/goCode/goApp
@@ -35,8 +34,6 @@ COPY --from=go-builder \
 COPY --from=go-builder \
     /app/goCode/libs/librpc.so \
     ../libs/librpc.so
-
-COPY goCode/.env ../.env
 
 ENV LD_LIBRARY_PATH=/app/goCode/libs
 
