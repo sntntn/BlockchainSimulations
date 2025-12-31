@@ -1,4 +1,4 @@
-use crate::models::{RPCResponseBlock, RPCResponseReceipt, SimpleBlock, TransactionReceipt, TxSummary};
+use crate::models::{RPCResponseBlock, JsonRpcResponse, RPCResponseReceipt, SimpleBlock, TransactionReceipt, TxSummary};
 use reqwest::Client;
 use serde_json::json;
 use std::sync::Arc;
@@ -20,9 +20,18 @@ pub async fn fetch_latest_block(rpc_url: &str, transaction_bool: bool) -> Simple
         .await
         .expect("Greska pri slanju zahteva");
 
-    let resp_json: RPCResponseBlock = resp.json().await.expect("Greska pri parsiranju odgovora");
+    let rpc_resp: JsonRpcResponse<SimpleBlock> = resp.json().await.expect("Greska pri parsiranju RPC odgovora");
 
-    resp_json.result
+    if let Some(err) = rpc_resp.error {
+        panic!(
+            "RPC greska (code={}): {}",
+            err.code, err.message
+        );
+    }
+
+    rpc_resp
+        .result
+        .expect("RPC odgovor nema result polje")
 }
 
 pub async fn fetch_block_by_number(rpc_url: &str, block_number: &str, transaction_bool: bool

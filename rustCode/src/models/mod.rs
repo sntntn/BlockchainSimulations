@@ -6,6 +6,19 @@ pub struct RPCResponseBlock {
 }
 
 #[derive(Debug, Deserialize)]
+pub struct JsonRpcError {
+    pub code: i64,
+    pub message: String,
+}
+
+#[derive(Debug, Deserialize)]
+pub struct JsonRpcResponse<T> {
+    pub result: Option<T>,
+    pub error: Option<JsonRpcError>,
+}
+
+
+#[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct SimpleBlock {
     pub number: String,
