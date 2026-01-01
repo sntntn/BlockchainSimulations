@@ -1,26 +1,29 @@
+# ---------------- RUST BUILD ----------------
 FROM rust:1.89 AS rust-builder
-WORKDIR /app
+WORKDIR /workspace
 
 COPY rustCode ./rustCode
-WORKDIR /app/rustCode
+WORKDIR /workspace/rustCode
 RUN cargo build --release
-# ----------------------------
+
+#--------------- GO BUILD --------------------
 FROM golang:1.25 AS go-builder
-WORKDIR /app
+WORKDIR /workspace
 
 COPY goCode ./goCode
 
+# Rust shared lib
 COPY --from=rust-builder \
-    /app/rustCode/target/release/librpc.so \
-    /app/goCode/libs/librpc.so
+    /workspace/rustCode/target/release/librpc.so \
+    /workspace/goCode/libs/librpc.so
 
-WORKDIR /app/goCode/goApp
+WORKDIR /workspace/goCode/goApp
 ENV CGO_ENABLED=1
 RUN go build -o app
 
-# ----------------------------
+# ------------------ RUNTIME -----------
 FROM ubuntu:24.04
-WORKDIR /app/goCode/goApp
+WORKDIR /workspace
 
 RUN apt-get update && apt-get install -y \
     ca-certificates \
@@ -28,13 +31,16 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 COPY --from=go-builder \
-    /app/goCode/goApp/app \
-    ./app
+    /workspace/goCode/goApp/app \
+    /workspace/goCode/goApp/app
 
+COPY --from=rust-builder \
+    /workspace/rustCode/target/release/rustCode \
+    /workspace/rustCode/rust-app
+
+# Shared lib
 COPY --from=go-builder \
-    /app/goCode/libs/librpc.so \
-    ../libs/librpc.so
+    /workspace/goCode/libs/librpc.so \
+    /workspace/goCode/libs/librpc.so
 
-ENV LD_LIBRARY_PATH=/app/goCode/libs
-
-CMD ["./app"]
+ENV LD_LIBRARY_PATH=/workspace/goCode/libs

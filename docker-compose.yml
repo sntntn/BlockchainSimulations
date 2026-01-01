@@ -1,10 +1,17 @@
 services:
   app:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    build: .
     image: blockchain-ffi
-    container_name: blockchain-ffi
+    container_name: blockchain-ffi-app
+    working_dir: /workspace/goCode/goApp
+    command: ./app
     volumes:
-      - ./goCode/.env:/app/goCode/.env
-#    restart: unless-stopped
+      - ./goCode/.env:/workspace/goCode/.env
+
+  rust:
+    image: blockchain-ffi
+    container_name: blockchain-ffi-rust
+    working_dir: /workspace/rustCode
+    command: ./rust-app
+    volumes:
+      - ./goCode/.env:/workspace/goCode/.env
